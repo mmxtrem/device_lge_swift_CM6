@@ -1,0 +1,365 @@
+# Put en_US first in the list, to make it default.
+PRODUCT_LOCALES := ru_RU mdpi
+
+$(call inherit-product, build/target/product/full.mk)
+
+# HAL libs and other system binaries
+PRODUCT_PACKAGES += \
+	libmm-omxcore \
+	libOmxCore \
+	bdaddr_read \
+	hcitool \
+	FM \
+	brcm_patchram_plus \
+#	icache \
+#	libOmxVidEnc
+
+PRODUCT_PACKAGES += libril
+
+PRODUCT_PACKAGES += flash_image dump_image erase_image e2fsck
+
+#PRODUCT_PACKAGES += sensors.swift lights.swift
+#PRODUCT_PACKAGES += copybit.swift #gralloc.swift
+
+PRODUCT_PACKAGES += \
+	hostap \
+	TSCalibration \
+#	lights.swift \
+#	lights.msm7k \
+#	sensors.swift \
+#	gralloc.swift \
+#	copybit.swift \
+#	KickBack \
+#	SpareParts \
+#	Launcher2 \
+
+
+# Live wallpaper packages
+PRODUCT_PACKAGES += \
+	LiveWallpapers \
+	LiveWallpapersPicker \
+	librs_jni \
+
+ifeq ($(TARGET_PREBUILT_KERNEL),)
+	LOCAL_KERNEL := device/lg/swift/prebuilt/kernel/zImage
+else
+	LOCAL_KERNEL := $(TARGET_PREBUILT_KERNEL)
+endif
+
+PRODUCT_COPY_FILES := \
+	$(LOCAL_KERNEL):kernel
+
+# Board-specific init
+PRODUCT_COPY_FILES += device/lg/swift/files/init.swift.rc:root/init.swift.rc
+PRODUCT_COPY_FILES += device/lg/swift/files/init.rc:root/init.rc
+PRODUCT_COPY_FILES += device/lg/swift/files/initlogo.rle:root/initlogo.rle
+
+# доступные для разгона частоты
+PRODUCT_COPY_FILES += device/lg/swift/files/scaling_available_frequencies:system/etc/scaling_available_frequencies
+
+# hosts
+PRODUCT_COPY_FILES += device/lg/swift/files/hosts:system/etc/hosts
+
+PRODUCT_COPY_FILES += \
+	device/lg/swift/files/01_qcomm_omx.cfg:system/etc/01_qcomm_omx.cfg \
+#	device/lg/swift/files/arcplayer.cfg:system/etc/arcplayer.cfg \
+#	device/lg/swift/files/pvplayer.cfg:system/etc/pvplayer.cfg \
+#	device/lg/swift/files/wiperconfig.xml:system/etc/wiperconfig.xml \
+
+# Publish that we support the live wallpaper feature.
+PRODUCT_COPY_FILES += \
+	packages/wallpapers/LivePicker/android.software.live_wallpaper.xml:system/etc/permissions/android.software.live_wallpaper.xml
+
+## OMX proprietaries
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/omx/libmm-adspsvc.so:system/lib/libmm-adspsvc.so \
+	device/lg/swift/proprietary/lib/omx/libOmxH264Dec.so:system/lib/libOmxH264Dec.so \
+	device/lg/swift/proprietary/lib/omx/libOmxMpeg4Dec.so:system/lib/libOmxMpeg4Dec.so \
+	device/lg/swift/proprietary/lib/omx/libOmxVidEnc.so:system/lib/libOmxVidEnc.so \
+	device/lg/swift/proprietary/lib/omx/libaudioalsa.so:system/lib/libaudioalsa.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxWmvDec.so:system/lib/libOmxWmvDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxMp3Dec.so:system/lib/libOmxMp3Dec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAacDec.so:system/lib/libOmxAacDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAmrDec.so:system/lib/libOmxAmrDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAacEnc.so:system/lib/libOmxAacEnc.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxQcelpDec.so:system/lib/libOmxQcelpDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxEvrcDec.so:system/lib/libOmxEvrcDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAmrEnc.so:system/lib/libOmxAmrEnc.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxWmaDec.so:system/lib/libOmxWmaDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAmrwbDec.so:system/lib/libOmxAmrwbDec.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxQcelp13Enc.so:system/lib/libOmxQcelp13Enc.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxEvrcEnc.so:system/lib/libOmxEvrcEnc.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAmrRtpDec.so:system/lib/libOmxAmrRtpDec.so \
+#	device/lg/swift/proprietary/lib/arc/libaomx_mp4dec_sharedlibrary.so:system/lib/libaomx_mp4dec_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/arc/libaomx_mp3dec_sharedlibrary.so:system/lib/libaomx_mp3dec_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/arc/libaomx_wmvdec_sharedlibrary.so:system/lib/libaomx_wmvdec_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/arc/libaomx_wmadec_sharedlibrary.so:system/lib/libaomx_wmadec_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/arc/libarcplatform.so:system/lib/libarcplatform.so \
+#	device/lg/swift/proprietary/lib/arc/libomx_arcomxcore_sharedlibrary.so:system/lib/libomx_arcomxcore_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/arc/libopencore_arcfflocal.so:system/lib/libopencore_arcfflocal.so \
+#	device/lg/swift/proprietary/lib/arc/libopencore_arcfflocalparser.so:system/lib/libopencore_arcfflocalparser.so \
+#	device/lg/swift/proprietary/lib/arc/libopencore_arcfflocalreg.so:system/lib/libopencore_arcfflocalreg.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxAdpcmDec.so:system/lib/libOmxAdpcmDec.so \
+#       device/lg/swift/proprietary/lib/omx/libomx_wmadec_sharedlibrary.so:system/lib/libomx_wmadec_sharedlibrary.so \
+#       device/lg/swift/proprietary/lib/omx/libomx_wmvdec_sharedlibrary.so:system/lib/libomx_wmvdec_sharedlibrary.so \
+#       device/lg/swift/proprietary/lib/omx/libomx_nextreaming_divxdec_sharedlibrary.so:system/lib/libomx_nextreaming_divxdec_sharedlibrary.so \
+#       device/lg/swift/proprietary/lib/omx/libomx_nextreaming_wmadec_sharedlibrary.so:system/lib/libomx_nextreaming_wmadec_sharedlibrary.so \
+#       device/lg/swift/proprietary/lib/omx/libomx_nextreaming_wmvdec_sharedlibrary.so:system/lib/libomx_nextreaming_wmvdec_sharedlibrary.so \
+#	device/lg/swift/proprietary/lib/omx/libOmxCore.so:system/lib/libOmxCore.so \
+
+
+
+# Audio 
+PRODUCT_COPY_FILES += \
+	device/lg/swift/prebuilt/AutoVolumeControl.txt:system/etc/AutoVolumeControl.txt \
+	device/lg/swift/prebuilt/AudioFilter.csv:system/etc/AudioFilter.csv \
+	device/lg/swift/proprietary/lib/libaudioeq.so:system/lib/libaudioeq.so \
+	device/lg/swift/prebuilt/media_profiles.xml:system/etc/media_profiles.xml \
+
+# Camera proprietaries
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/camera/liboemcamera.so:system/lib/liboemcamera.so \
+	device/lg/swift/proprietary/lib/camera/libmmjpeg.so:system/lib/libmmjpeg.so \
+	device/lg/swift/proprietary/lib/camera/libmmipl.so:system/lib/libmmipl.so \
+
+PRODUCT_COPY_FILES += \
+	device/lg/swift/prebuilt/apns-conf.xml:system/etc/apns-conf.xml \
+
+# RIL
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/ril/libauth.so:system/lib/libauth.so \
+	device/lg/swift/proprietary/lib/ril/libbcmwl.so:system/lib/libbcmwl.so \
+	device/lg/swift/proprietary/lib/ril/libcm.so:system/lib/libcm.so \
+	device/lg/swift/proprietary/lib/ril/libdiag.so:system/lib/libdiag.so \
+	device/lg/swift/proprietary/lib/ril/libdll.so:system/lib/libdll.so \
+	device/lg/swift/proprietary/lib/ril/libdsm.so:system/lib/libdsm.so \
+	device/lg/swift/proprietary/lib/ril/libdss.so:system/lib/libdss.so \
+	device/lg/swift/proprietary/lib/ril/libgsdi_exp.so:system/lib/libgsdi_exp.so \
+	device/lg/swift/proprietary/lib/ril/libgstk_exp.so:system/lib/libgstk_exp.so \
+	device/lg/swift/proprietary/lib/ril/liblgeat.so:system/lib/liblgeat.so \
+	device/lg/swift/proprietary/lib/ril/liblgerft.so:system/lib/liblgerft.so \
+	device/lg/swift/proprietary/lib/ril/libmmgsdilib.so:system/lib/libmmgsdilib.so \
+	device/lg/swift/proprietary/lib/ril/libnv.so:system/lib/libnv.so \
+	device/lg/swift/proprietary/lib/ril/liboem_rapi.so:system/lib/liboem_rapi.so \
+	device/lg/swift/proprietary/lib/ril/liboncrpc.so:system/lib/liboncrpc.so \
+	device/lg/swift/proprietary/lib/ril/libpbmlib.so:system/lib/libpbmlib.so \
+	device/lg/swift/proprietary/lib/ril/libqmi.so:system/lib/libqmi.so \
+	device/lg/swift/proprietary/lib/ril/libqueue.so:system/lib/libqueue.so \
+	device/lg/swift/proprietary/lib/ril/libril_log.so:system/lib/libril_log.so \
+	device/lg/swift/proprietary/lib/ril/libril-qc-1.so:system/lib/libril-qc-1.so \
+	device/lg/swift/proprietary/lib/ril/libril-qcril-hook-oem.so:system/lib/libril-qcril-hook-oem.so \
+	device/lg/swift/proprietary/lib/ril/libwms.so:system/lib/libwms.so \
+	device/lg/swift/proprietary/lib/ril/libwmsts.so:system/lib/libwmsts.so \
+	device/lg/swift/proprietary/lib/ril/liblgdrm.so:system/lib/liblgdrm.so \
+	device/lg/swift/proprietary/lib/ril/liblgdrmwbxml.so:system/lib/liblgdrmwbxml.so \
+#	device/lg/swift/proprietary/lib/ril/libril.so:system/lib/libril.so
+#	device/lg/swift/prebuilt/rild:system/bin/rild
+
+# LGE services
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/akmd2:system/bin/akmd2 \
+	device/lg/swift/proprietary/qmuxd:system/bin/qmuxd \
+	device/lg/swift/proprietary/adb.sh:system/bin/adb.sh \
+	device/lg/swift/proprietary/ums.sh:system/bin/ums.sh \
+	device/lg/swift/proprietary/handset-keypress:system/bin/handset-keypress \
+	device/lg/swift/proprietary/AT:system/bin/AT \
+#	device/lg/swift/proprietary/playmp3:system/bin/playmp3 \
+#	device/lg/swift/proprietary/port-bridge:system/bin/port-bridge \
+#	device/lg/swift/proprietary/rmt_storage:system/bin/rmt_storage \
+#	device/lg/swift/proprietary/wiperiface:system/bin/wiperiface
+
+# GPS
+PRODUCT_COPY_FILES += \
+	device/lg/swift/files/loc_parameter.ini:system/etc/loc_parameter.ini \
+	device/lg/swift/files/gps.conf:system/etc/gps.conf \
+	device/lg/swift/proprietary/lib/gps/libcommondefs.so:system/lib/libcommondefs.so \
+	device/lg/swift/proprietary/lib/gps/libgps.so:system/lib/libgps.so \
+	device/lg/swift/proprietary/lib/gps/libloc_api.so:system/lib/libloc_api.so \
+	device/lg/swift/proprietary/lib/gps/libloc-rpc.so:system/lib/libloc-rpc.so \
+	device/lg/swift/proprietary/lib/gps/libloc.so:system/lib/libloc.so \
+	device/lg/swift/proprietary/lib/gps/librpc.so:system/lib/librpc.so \
+	device/lg/swift/proprietary/lib/gps/libloc_api.so:obj/lib/libloc_api.so \
+	device/lg/swift/proprietary/lib/gps/libloc.so:obj/lib/libloc.so \
+	device/lg/swift/proprietary/lib/gps/libloc-rpc.so:obj/lib/libloc-rpc.so \
+	device/lg/swift/proprietary/lib/gps/libgps.so:obj/lib/libgps.so \
+	device/lg/swift/proprietary/lib/gps/libcommondefs.so:obj/lib/libcommondefs.so \
+
+# Bluetooth
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/bluetooth/BCM4325D1_004.002.004.0262.0270.hcd:system/bin/BCM4325D1_004.002.004.0262.0270.hcd \
+	device/lg/swift/proprietary/bluetooth/btld:system/bin/btld \
+#	device/lg/swift/proprietary/brcm_patchram_plus:system/bin/brcm_patchram_plus \
+
+# Wifi
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/wifi/rtecdc-apsta.bin:system/etc/wl/rtecdc-apsta.bin \
+	device/lg/swift/proprietary/wifi/nvram.txt:system/etc/wl/nvram.txt \
+	device/lg/swift/prebuilt/dhcpcd.conf:system/etc/dhcpcd/dhcpcd.conf \
+	device/lg/swift/prebuilt/kernel/modules/wireless.ko:system/lib/modules/wireless.ko \
+	device/lg/swift/prebuilt/kernel/modules/tun.ko:system/lib/modules/tun.ko \
+	device/lg/swift/prebuilt/kernel/modules/cifs.ko:system/lib/modules/cifs.ko \
+	device/lg/swift/prebuilt/kernel/modules/ip_gre.ko:system/lib/modules/ip_gre.ko \
+	device/lg/swift/prebuilt/kernel/modules/librasdioif.ko:system/lib/modules/librasdioif.ko \
+	device/lg/swift/prebuilt/kernel/modules/diagchar.ko:system/lib/modules/diagchar.ko \
+	device/lg/swift/prebuilt/kernel/modules/evbug.ko:system/lib/modules/evbug.ko \
+	device/lg/swift/prebuilt/kernel/modules/hid-dummy.ko:system/lib/modules/hid-dummy.ko \
+	device/lg/swift/prebuilt/kernel/modules/oprofile.ko:system/lib/modules/oprofile.ko \
+	device/lg/swift/prebuilt/kernel/modules/ramzswap.ko:system/lib/modules/ramzswap.ko \
+	device/lg/swift/prebuilt/kernel/modules/reset_modem.ko:system/lib/modules/reset_modem.ko \
+	device/lg/swift/files/wpa_supplicant.conf:system/etc/wifi/wpa_supplicant.conf \
+	device/lg/swift/prebuilt/hostapd.conf:system/etc/wifi/hostapd.conf \
+	device/lg/swift/proprietary/wifi/wpa_supplicant:system/bin/wpa_supplicant \
+	device/lg/swift/proprietary/wifi/rtecdc.bin:system/etc/wl/rtecdc.bin \
+	device/lg/swift/proprietary/wifi/rtecdc-mfgtest.bin:system/etc/wl/rtecdc-mfgtest.bin \
+	device/lg/swift/proprietary/wifi/wl:system/bin/wl \
+
+
+# Keylayouts
+PRODUCT_COPY_FILES += \
+	device/lg/swift/prebuilt/msm_touchscreen.kcm.bin:system/usr/keychars/msm_touchscreen.kcm.bin \
+	device/lg/swift/prebuilt/qwerty.kcm.bin:system/usr/keychars/qwerty.kcm.bin \
+	device/lg/swift/prebuilt/qwerty2.kcm.bin:system/usr/keychars/qwerty2.kcm.bin \
+	device/lg/swift/prebuilt/swift_keypad.kcm.bin:system/usr/keychars/swift_keypad.kcm.bin \
+	device/lg/swift/prebuilt/qwerty.kl:system/usr/keylayout/qwerty.kl \
+	device/lg/swift/prebuilt/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+	device/lg/swift/prebuilt/7k_handset.kl:system/usr/keylayout/7k_handset.kl \
+#	device/lg/swift/prebuilt/h2w_headset.kl:system/usr/keylayout/h2w_headset.kl \
+
+# SD Card
+PRODUCT_COPY_FILES += \
+	device/lg/swift/files/vold.fstab:/system/etc/vold.fstab \
+
+# Hardware properties 
+PRODUCT_COPY_FILES += \
+	frameworks/base/data/etc/android.hardware.camera.autofocus.xml:system/etc/permissions/android.hardware.camera.autofocus.xml \
+	frameworks/base/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
+	frameworks/base/data/etc/android.hardware.location.gps.xml:system/etc/permissions/android.hardware.location.gps.xml \
+	frameworks/base/data/etc/android.hardware.wifi.xml:system/etc/permissions/android.hardware.wifi.xml \
+	frameworks/base/data/etc/android.hardware.sensor.compass.xml:system/etc/permissions/android.hardware.sensor.compass.xml \
+	frameworks/base/data/etc/android.hardware.sensor.accelerometer.xml:system/etc/permissions/android.hardware.sensor.accelerometer.xml \
+	frameworks/base/data/etc/handheld_core_hardware.xml:system/etc/permissions/handheld_core_hardware.xml \
+
+# 2D
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/copybit.swift.so:system/lib/hw/copybit.swift.so \
+	device/lg/swift/proprietary/lib/gralloc.swift.so:system/lib/hw/gralloc.swift.so \
+	device/lg/swift/proprietary/lib/gralloc.default.so:system/lib/hw/gralloc.default.so \
+
+
+# HW
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/sensors.swift.so:system/lib/hw/sensors.swift.so \
+	device/lg/swift/proprietary/lib/lights.swift.so:system/lib/hw/lights.swift.so \
+
+# OpenGL
+PRODUCT_COPY_FILES += \
+	device/lg/swift/proprietary/lib/egl/libEGL_adreno200.so:system/lib/egl/libEGL_adreno200.so \
+	device/lg/swift/proprietary/lib/egl/libGLESv2_adreno200.so:system/lib/egl/libGLESv2_adreno200.so \
+	device/lg/swift/proprietary/lib/egl/libGLESv1_CM_adreno200.so:system/lib/egl/libGLESv1_CM_adreno200.so \
+	device/lg/swift/proprietary/lib/egl/libq3dtools_adreno200.so:system/lib/egl/libq3dtools_adreno200.so \
+	device/lg/swift/proprietary/lib/libgsl.so:system/lib/libgsl.so \
+	device/lg/swift/prebuilt/yamato_pfp.fw:system/etc/firmware/yamato_pfp.fw \
+	device/lg/swift/prebuilt/yamato_pm4.fw:system/etc/firmware/yamato_pm4.fw \
+	device/lg/swift/files/egl.cfg:system/lib/egl/egl.cfg \
+
+
+#PRODUCT_COPY_FILES += \
+#	device/lg/swift/files/15checkgapps:system/etc/init.d/15checkgapps
+
+PRODUCT_PROPERTY_OVERRIDES += ro.product.model="LG-GT540"
+
+PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
+
+PRODUCT_MANUFACTURER := LGE
+PRODUCT_BRAND := LGE
+PRODUCT_NAME := full_swift
+PRODUCT_DEVICE := swift
+PRODUCT_MODEL := LG-GT540
+
+# Custom apps
+PRODUCT_COPY_FILES += \
+	device/lg/swift/prebuilt/apps/RootExplorer.apk:./system/app/RootExplorer.apk \
+	device/lg/swift/prebuilt/apps/Superuser.apk:./system/app/Superuser.apk \
+	device/lg/swift/prebuilt/apps/addapk/QQPlayer.apk:/system/app/QQPlayer.apk \
+	device/lg/swift/prebuilt/apps/lib/libsemaphore.so:/system/lib/libsemaphore.so \
+	device/lg/swift/prebuilt/apps/lib/libgetproperty.so:/system/lib/libgetproperty.so \
+	device/lg/swift/prebuilt/apps/lib/libexport.so:/system/lib/libexport.so	\
+	device/lg/swift/prebuilt/apps/addapk/smartkeyboardpro.apk:./system/app/smartkeyboardpro.apk \
+	device/lg/swift/prebuilt/apps/addapk/smart.ru.apk:./system/app/smart.ru.apk \
+	device/lg/swift/prebuilt/apps/addapk/smart.uk.apk:./system/app/smart.uk.apk \
+	device/lg/swift/prebuilt/apps/addapk/smart.en.apk:./system/app/smart.en.apk \
+	device/lg/swift/prebuilt/apps/addapk/libjni_smartkbd2.so:./system/lib/libjni_smartkbd2.so \
+	device/lg/swift/prebuilt/apps/addapk/DroidWall_1.5.3.apk:./system/app/DroidWall.apk \
+	device/lg/swift/prebuilt/apps/addapk/Homeselector.apk:./system/app/Homeselector.apk \
+	device/lg/swift/prebuilt/apps/addapk/LauncherPro.apk:./system/app/LauncherPro.apk \
+	device/lg/swift/prebuilt/apps/addapk/mpeclient.apk:./system/app/mpeclient.apk \
+	device/lg/swift/prebuilt/apps/CMParts.apk:./system/app/CMParts.apk \
+	device/lg/swift/prebuilt/apps/CMPartsHelper.apk:./system/app/CMPartsHelper.apk \
+	device/lg/swift/prebuilt/apps/CMWallpapers.apk:./system/app/CMWallpapers.apk \
+	device/lg/swift/prebuilt/apps/addapk/Terminal.apk:./system/app/Terminal.apk \
+	device/lg/swift/prebuilt/apps/addapk/atm.apk:./system/app/atm.apk \
+	device/lg/swift/prebuilt/apps/addapk/libjackpal-androidterm2.so:./system/lib/libjackpal-androidterm2.so \
+	device/lg/swift/prebuilt/apps/libDioDictEngineNative.so:./system/lib/libDioDictEngineNative.so \
+	device/lg/swift/prebuilt/apps/DioDict2.apk:./system/app/DioDict2.apk \
+	device/lg/swift/prebuilt/apps/Lite_LingvoEngToRusDictionaryUCS2LESUIDDBwH.dat:./system/3rd_party/DioDict2/Lite_LingvoEngToRusDictionaryUCS2LESUIDDBwH.dat \
+	device/lg/swift/prebuilt/apps/Lite_LingvoRusToEngDictionaryUCS2LESUIDDBwH.dat:./system/3rd_party/DioDict2/Lite_LingvoRusToEngDictionaryUCS2LESUIDDBwH.dat \
+	device/lg/swift/prebuilt/apps/addapk/MemoWidget.apk:./system/app/MemoWidget.apk \
+	device/lg/swift/prebuilt/apps/addapk/MessageWidget.apk:./system/app/MessageWidget.apk \
+	device/lg/swift/prebuilt/apps/addapk/kickback.apk:./system/app/kickback.apk \
+#	device/lg/swift/prebuilt/apps/addapk/DSPManager.apk:./system/app/DSPManager.apk \
+#	device/lg/swift/prebuilt/apps/addapk/PlayerPro.apk:./system/app/PlayerPro.apk \
+#	device/lg/swift/prebuilt/apps/addapk/DSPPack_2.1.apk:./system/app/DSPPack_2.1.apk \
+#	device/lg/swift/prebuilt/apps/addapk/com.danesh.system.app.remover-1.apk:./system/app/system.app.remover.apk \
+#	device/lg/swift/prebuilt/apps/addapk/android.tether.apk:./system/app/android.tether.apk \
+#	device/lg/swift/prebuilt/apps/addapk/LGCalibrationTS.apk:./system/app/LGCalibrationTS.apk \
+#	device/lg/swift/prebuilt/apps/addapk/libwnn_smartkbd.so:./system/lib/libwnn_smartkbd.so \
+#	device/lg/swift/prebuilt/apps/addapk/ws.plattner.cifsmanager.apk:./system/app/ws.plattner.cifsmanager.apk \
+#	device/lg/swift/prebuilt/sounds/lgeSounds/PowerOn.mp3:./system/sounds/lgeSounds/Startup.mp3 \
+#	device/lg/swift/prebuilt/apps/addapk/barnacle.apk:./system/app/barnacle.apk \
+#	device/lg/swift/prebuilt/30speedfix:.system/etc/init.d/30speedfix \
+#	device/lg/swift/prebuilt/apps/addapk/FancyWidget.apk:./system/app/FancyWidget.apk \
+# 	device/lg/swift/prebuilt/apps/Ringdroid_2.5.apk:./system/app/Ringdroid.apk \
+#	device/lg/swift/prebuilt/apps/Overclock.apk:/system/app/Overclock.apk \
+#	device/lg/swift/prebuilt/apps/lib/libsetcpu-native.so:/system/lib/libsetcpu-native.so \
+#	device/lg/swift/prebuilt/apps/addapk/libpinyin_smartkbd.so:./system/lib/libpinyin_smartkbd.so \
+#	device/lg/swift/prebuilt/apps/QuickSettings.apk:./system/app/QuickSettings.apk \
+#	device/lg/swift/prebuilt/apps/Calc__Free_1.0.6.apk:./system/app/Calculator.apk \
+#	device/lg/swift/prebuilt/apps/AutoKiller_v5.02.apk:./system/app/AutoKiller.apk \
+#	device/lg/swift/prebuilt/apps/adwlex122.apk:./system/app/ADWLauncherEx.apk
+#	device/lg/swift/prebuilt/apps/autostart_v1.70.apk:./system/app/Autostart.apk \
+#	device/lg/swift/prebuilt/apps/Swapper2.apk:./system/app/Swapper2.apk \
+#	device/lg/swift/prebuilt/apps/MiuiMusic.apk:./system/app/MiuiMusic.apk \
+
+SWIFT_WITH_GOOGLE := true
+
+ifdef SWIFT_WITH_GOOGLE
+PRODUCT_COPY_FILES += \
+        device/lg/swift/prebuilt/googleapps/app/OneTimeInitializer.apk:./system/app/OneTimeInitializer.apk \
+        device/lg/swift/prebuilt/googleapps/app/Gmail.apk:./system/app/Gmail.apk \
+        device/lg/swift/prebuilt/googleapps/app/GenieWidget.apk:./system/app/GenieWidget.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleBackupTransport.apk:./system/app/GoogleBackupTransport.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleCalendarSyncAdapter.apk:./system/app/GoogleCalendarSyncAdapter.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleContactsSyncAdapter.apk:./system/app/GoogleContactsSyncAdapter.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleFeedback.apk:./system/app/GoogleFeedback.apk \
+        device/lg/swift/prebuilt/googleapps/app/GooglePartnerSetup.apk:./system/app/GooglePartnerSetup.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleQuickSearchBox.apk:./system/app/GoogleQuickSearchBox.apk \
+        device/lg/swift/prebuilt/googleapps/app/GoogleServicesFramework.apk:./system/app/GoogleServicesFramework.apk \
+        device/lg/swift/prebuilt/googleapps/app/MarketUpdater.apk:./system/app/MarketUpdater.apk \
+        device/lg/swift/prebuilt/googleapps/app/MediaUploader.apk:./system/app/MediaUploader.apk \
+        device/lg/swift/prebuilt/googleapps/app/NetworkLocation.apk:./system/app/NetworkLocation.apk \
+        device/lg/swift/prebuilt/googleapps/app/SetupWizard.apk:./system/app/SetupWizard.apk \
+        device/lg/swift/prebuilt/googleapps/app/Vending.apk:./system/app/Vending.apk \
+        device/lg/swift/prebuilt/googleapps/app/VoiceSearch.apk:./system/app/VoiceSearch.apk \
+        device/lg/swift/prebuilt/googleapps/app/YouTube.apk:./system/app/YouTube.apk \
+        device/lg/swift/prebuilt/googleapps/app/Talk.apk:./system/app/Talk.apk \
+        device/lg/swift/prebuilt/googleapps/etc/permissions/com.google.android.maps.xml:./system/etc/permissions/com.google.android.maps.xml \
+        device/lg/swift/prebuilt/googleapps/etc/permissions/features.xml:./system/etc/permissions/features.xml \
+        device/lg/swift/prebuilt/googleapps/framework/com.google.android.maps.jar:./system/framework/com.google.android.maps.jar \
+        device/lg/swift/prebuilt/googleapps/lib/libvoicesearch.so:./system/lib/libvoicesearch.so \
+        device/lg/swift/prebuilt/googleapps/lib/libspeech.so:./system/lib/libspeech.so \
+        device/lg/swift/prebuilt/googleapps/lib/libinterstitial.so:./system/lib/libinterstitial.so \
+#       device/lg/swift/prebuilt/googleapps/app/music.apk:./system/app/music.apk
+endif
+
+# The gps config appropriate for this device
+#$(call inherit-product, device/common/gps/gps_eu_supl.mk)

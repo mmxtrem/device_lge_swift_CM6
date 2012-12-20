@@ -1,0 +1,11 @@
+key 158   BACK              VIRTUAL
+key 139   MENU              VIRTUAL
+key 231   CALL              WAKE_DROPPED
+key 107   ENDCALL           WAKE_DROPPED
+key 116   POWER             WAKE
+key 102   HOME              WAKE
+key 115   VOLUME_UP         WAKE_DROPPED
+key 114   VOLUME_DOWN       WAKE_DROPPED
+key 217   SEARCH            
+key 212   CAMERA
+key 242   FOCUS
